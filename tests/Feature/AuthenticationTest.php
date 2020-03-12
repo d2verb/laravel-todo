@@ -64,8 +64,16 @@ class AuthenticationTest extends TestCase
 
     public function testUserCanLogout()
     {
-        $response = $this->actingAs($this->user);
-        $response->post(route('logout'));
+        $response = $this->actingAs($this->user)->post(route('logout'));
         $this->assertGuest();
+    }
+
+    public function testGetMethodIsnotAllowedOnLogout()
+    {
+        $response = $this->actingAs($this->user)->get(route('logout'));
+        $response->assertStatus(404);
+
+        $response = $this->get(route('logout'));
+        $response->assertStatus(404);
     }
 }
