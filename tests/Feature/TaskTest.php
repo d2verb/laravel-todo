@@ -120,4 +120,23 @@ class TaskTest extends TestCase
         $this->assertEquals(true, session()->hasOldInput('title'));
         $response->assertRedirect(route('tasks.create', ['folder' => $this->folder->id]));
     }
+
+    public function testUserCanRemoveTask()
+    {
+        $response = $this->actingAs($this->user)
+                         ->post(route('tasks.create', ['folder' => $this->folder->id]), [
+                             'title' => 'test task',
+                             'due_date' => Carbon::tomorrow()->format('Y/m/d'),
+                         ]);
+        $this->assertCount(1, $tasks = Task::all());
+        $task = $tasks->first();
+
+        $response = $this->actingAs($this->user)
+                         ->post(route('tasks.remove', [
+                             'folder' => $this->folder->id,
+                             'task' => $task->id,
+                         ]));
+        $this->assertCount(0, Task::all());
+        $response->assertRedirect(route('tasks.index', $this->folder->id));
+    }
 }

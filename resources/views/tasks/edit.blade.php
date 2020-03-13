@@ -48,7 +48,11 @@
               </div>
               <div class="text-right">
                 <button type="submit" class="btn btn-primary">送信</button>
+                <a id="remove-task" href="#" class="btn btn-danger">削除</a>
               </div>
+            </form>
+            <form id="remove-task-form" action="{{ route('tasks.remove', ['folder' => $task->folder_id, 'task' => $task->id]) }}" method="POST" style="display: none;">
+              @csrf
             </form>
           </div>
         </nav>
@@ -58,5 +62,11 @@
 @endsection
 
 @section('scripts')
-  @include('share.flatpickr.scripts')
+    @include('share.flatpickr.scripts')
+    <script>
+        document.getElementById('remove-task').addEventListener('click', function(event) {
+            event.preventDefault();
+            document.getElementById('remove-task-form').submit();
+        });
+    </script>
 @endsection

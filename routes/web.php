@@ -27,11 +27,11 @@ Route::group(['middleware' => 'auth'], function() {
 
         Route::get('/folders/{folder}/tasks/{task}/edit', 'TaskController@showEditForm')->name('tasks.edit');
         Route::post('/folders/{folder}/tasks/{task}/edit', 'TaskController@edit');
+
+        Route::post('/folders/{folder}/tasks/{task}/remove', 'TaskController@remove')->name('tasks.remove');
     });
 });
 
-Route::get('/logout', function () {
-    return abort(404);
-});
+Route::get('/logout', function () { return abort(404); });
 
 Auth::routes();

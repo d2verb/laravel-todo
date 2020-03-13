@@ -65,6 +65,14 @@ class TaskController extends Controller
         ]);
     }
 
+    public function remove(Folder $folder, Task $task)
+    {
+        $task->delete();
+        return redirect()->route('tasks.index', [
+            'folder' => $folder->id,
+        ]);
+    }
+
     private function checkRelation(Folder $folder, Task $task)
     {
         if ($folder->id !== $task->folder_id) {
