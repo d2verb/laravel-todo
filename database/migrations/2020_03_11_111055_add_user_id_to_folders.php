@@ -15,11 +15,11 @@ class AddUserIdToFolders extends Migration
     {
         Schema::table('folders', function (Blueprint $table) {
             // 一旦NULLを許可
-            $table->integer('user_id')->nullable();
+            $table->bigInteger('user_id')->unsigned()->nullable();
         });
         Schema::table('folders', function (Blueprint $table) {
             // NOT NULL制約に変更
-            $table->integer('user_id')->nullable(false)->change();
+            $table->bigInteger('user_id')->unsigned()->nullable(false)->change();
             $table->foreign('user_id')->references('id')->on('users');
         });
     }
